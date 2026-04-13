@@ -7,14 +7,10 @@ export const ITEM_BATCH_SIZE = 20;
 async function fetchJson(url) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error("No se pudo cargar la informacion");
+    throw new Error("No se ha podido cargar la informacion");
   }
 
   return response.json();
-}
-
-function unique(values) {
-  return [...new Set(values)];
 }
 
 export async function listPokemonBatch(offset, limit = HOME_BATCH_SIZE) {
@@ -33,7 +29,6 @@ export async function getPokemon(idOrName) {
       data.sprites?.front_default ||
       "",
     cry: `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${data.id}.ogg`,
-    games: unique(data.game_indices.map((game) => game.version.name)),
   };
 }
 
