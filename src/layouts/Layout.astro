@@ -1,0 +1,23 @@
+---
+import Header from "../components/Header.astro";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Practica de Astro y Tailwind CSS con PokeAPI: Pokemon, habitats y objetos."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>PokeAPI Practica | Astro</title>
+  </head>
+  <body class="min-h-screen antialiased bg-[#f7f3ec]">
+    <Header />
+    <slot />
+  </body>
+</html>
