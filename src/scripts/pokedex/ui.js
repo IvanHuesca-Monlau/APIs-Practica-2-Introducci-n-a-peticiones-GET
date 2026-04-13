@@ -37,11 +37,10 @@ function renderTypeIcons(types) {
     .join("");
 }
 
-function renderItemStateIcon({ active, activeIcon, inactiveIcon, label }) {
-  const icon = active ? activeIcon : inactiveIcon;
+function renderItemStateIcon({ active, icon, label }) {
   const tone = active
     ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-    : "border-slate-300 bg-slate-50 text-slate-500";
+    : "border-rose-200 bg-rose-50 text-rose-700";
 
   return `<span class="inline-flex h-8 w-8 items-center justify-center rounded-full border ${tone}" title="${label}" aria-label="${label}">${icon}</span>`;
 }
@@ -80,14 +79,12 @@ export function renderItemCard(item) {
         <div class="flex items-center gap-2">
           ${renderItemStateIcon({
             active: item.consumable,
-            activeIcon: "🧪",
-            inactiveIcon: "📦",
+            icon: "🧪",
             label: item.consumable ? "Consumible" : "No consumible",
           })}
           ${renderItemStateIcon({
             active: item.battleUsable,
-            activeIcon: "⚔️",
-            inactiveIcon: "🚫",
+            icon: "⚔️",
             label: item.battleUsable ? "Se puede usar en batalla" : "No se puede usar en batalla",
           })}
         </div>
