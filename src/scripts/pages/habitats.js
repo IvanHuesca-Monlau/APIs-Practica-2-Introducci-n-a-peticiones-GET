@@ -45,7 +45,7 @@ function initHabitatsPage() {
     }
 
     habitatTitle.textContent = toTitleCase(normalizedName);
-    habitatCount.textContent = "Cargando primeros Pokemon del habitat...";
+    habitatCount.textContent = "Cargando los primeros Pokemon del habitat...";
     habitatGrid.innerHTML = "";
 
     try {
