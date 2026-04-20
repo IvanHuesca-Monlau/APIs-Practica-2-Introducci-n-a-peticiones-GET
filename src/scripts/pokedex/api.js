@@ -41,7 +41,7 @@ export async function getHabitat(habitatName) {
 }
 
 export async function listAllItems() {
-  return fetchJson(`${API}/item?limit=10000`);
+  return fetchJson(`${API}/item?limit=5000`);
 }
 
 export async function getItem(itemName) {
