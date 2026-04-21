@@ -18,7 +18,9 @@ export async function listPokemonBatch(offset, limit = HOME_BATCH_SIZE) {
 }
 
 export async function getPokemon(idOrName) {
-  const data = await fetchJson(`${API}/pokemon/${String(idOrName).toLowerCase()}`);
+  const data = await fetchJson(
+    `${API}/pokemon/${String(idOrName).toLowerCase()}`,
+  );
 
   return {
     id: data.id,
@@ -59,7 +61,7 @@ export async function getItem(itemName) {
     description:
       englishEffect?.short_effect ||
       englishFlavor?.text ||
-      "No description available.",
+      "No hay descripción disponible.",
     consumable: data.consumable,
     battleUsable: data.attributes.some(
       (attribute) => attribute.name === "usable-in-battle",

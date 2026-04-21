@@ -30,30 +30,28 @@ function initHabitatsPage() {
     habitatList.innerHTML = habitats
       .map(
         (habitat) => `
-            <button type="button" data-habitat="${habitat.name}" class="rounded-full border border-slate-300 bg-white px-4 py-1 text-sm text-slate-700 hover:bg-slate-100">
-              ${toTitleCase(habitat.name)}
-            </button>
-          `,
+          <button type="button" data-habitat="${habitat.name}" class="rounded-full border border-slate-300 bg-white px-4 py-1 text-sm text-slate-700 hover:bg-slate-100">
+            ${toTitleCase(habitat.name)}
+          </button>
+        `,
       )
       .join("");
   }
 
   async function loadHabitatPokemon(habitatName) {
     const normalizedName = habitatName.trim().toLowerCase();
+
     if (!normalizedName) {
       return;
     }
 
     habitatTitle.textContent = toTitleCase(normalizedName);
-    habitatCount.textContent = "Cargando los primeros Pokemon del habitat...";
+    habitatCount.textContent = "Cargando Pokemon...";
     habitatGrid.innerHTML = "";
 
     try {
       const habitat = await getHabitat(normalizedName);
-      const species = (habitat.pokemon_species ?? []).slice(
-        0,
-        HABITAT_BATCH_SIZE,
-      );
+      const species = (habitat.pokemon_species ?? []).slice(0, HABITAT_BATCH_SIZE);
 
       if (!species.length) {
         habitatCount.textContent =
@@ -65,10 +63,8 @@ function initHabitatsPage() {
         species.map((entry) => getPokemon(entry.name)),
       );
 
-      habitatGrid.innerHTML = pokemon
-        .map((entry) => renderPokemonCard(entry))
-        .join("");
-      habitatCount.textContent = `Mostrando ${pokemon.length} Pokemon. Selecciona cualquier otro habitat para cargar los Pokemon que se encuentran en él.`;
+      habitatGrid.innerHTML = pokemon.map((entry) => renderPokemonCard(entry)).join("");
+      habitatCount.textContent = `Mostrando ${pokemon.length} Pokemon.`;
     } catch (error) {
       habitatCount.textContent = "Error al cargar el habitat.";
     }

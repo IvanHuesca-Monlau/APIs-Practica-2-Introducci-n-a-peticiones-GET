@@ -1,5 +1,5 @@
 function buscarPokemon() {
-    const input = document.getElementById("pokemonInput").value.toLowerCase();
+    const input = document.getElementById("pokemonInput").value.trim().toLowerCase();
     const url = `https://pokeapi.co/api/v2/pokemon/${input}`;
 
     fetch(url)
@@ -12,26 +12,11 @@ function buscarPokemon() {
         .then(data => {
             document.getElementById("nombre").innerText = data.name.toUpperCase();
             document.getElementById("numero").innerText = data.id;
-            
-            // Obtener tipos con map
+
             const tipos = data.types.map(t => t.type.name).join(", ");
             document.getElementById("tipo").innerText = tipos;
 
-            /*
-            // Obtener tipos usando forEach
-            let tipos = [];
-            data.types.forEach(t => {
-                tipos.push(t.type.name);
-            });
-            document.getElementById("tipo").innerText = tipos.join(", ");
-            */
-
-
-
-            // Obtener imagen oficial
             document.getElementById("imagen").src = data.sprites.other["official-artwork"].front_default;
-
-            // Obtener sonido
             document.getElementById("sonido").src = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${data.id}.ogg`;
         })
         .catch(error => {

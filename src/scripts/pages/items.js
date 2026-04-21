@@ -17,6 +17,7 @@ function initItemsPage() {
     }
 
     itemsLoaded = true;
+    itemsStatus.textContent = "Cargando objetos...";
 
     try {
       const list = await listAllItems();
@@ -31,15 +32,12 @@ function initItemsPage() {
         const chunk = results.slice(index, index + ITEM_BATCH_SIZE);
         const items = await Promise.all(chunk.map((entry) => getItem(entry.name)));
 
-        itemsGrid.insertAdjacentHTML(
-          "beforeend",
-          items.map((entry) => renderItemCard(entry)).join(""),
-        );
+        itemsGrid.insertAdjacentHTML("beforeend", items.map((entry) => renderItemCard(entry)).join(""));
 
-        itemsStatus.textContent = `Estamos cargando todos los objetos en bloques para mantener la interfaz fluida. Un momento, por favor... ${Math.min(index + chunk.length, results.length)} / ${results.length}`;
+        itemsStatus.textContent = `Cargados ${Math.min(index + chunk.length, results.length)} de ${results.length} objetos.`;
       }
 
-      itemsStatus.textContent = `Hemos cargado los ${results.length} objetos correctamente.`;
+      itemsStatus.textContent = `Hemos cargado ${results.length} objetos.`;
     } catch (error) {
       itemsStatus.textContent = `No se han podido cargar los objetos: ${error.message}`;
     }

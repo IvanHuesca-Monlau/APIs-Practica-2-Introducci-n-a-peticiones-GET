@@ -1,5 +1,5 @@
 import { HOME_BATCH_SIZE, getPokemon, listPokemonBatch } from "../pokedex/api";
-import { renderPokemonCard, toTitleCase } from "../pokedex/ui";
+import { renderPokemonCard } from "../pokedex/ui";
 
 function initHomePage() {
   const searchButton = document.getElementById("pokemon-search-form");
@@ -26,16 +26,24 @@ function initHomePage() {
   let homeLoading = false;
   let homeFinished = false;
 
-  function setHomeLoadButtonState() {
-    homeLoadMore.disabled = homeLoading || homeFinished;
-    homeLoadMore.textContent = homeFinished
-      ? "No hay mas Pokemon"
-      : homeLoading
-        ? "Cargando más Pokemon..."
-        : "Cargar más Pokemon";
+  function updateHomeButton() {
+    if (homeFinished) {
+      homeLoadMore.disabled = true;
+      homeLoadMore.textContent = "No hay mas Pokemon";
+      return;
+    }
+
+    if (homeLoading) {
+      homeLoadMore.disabled = true;
+      homeLoadMore.textContent = "Cargando más Pokemon...";
+      return;
+    }
+
+    homeLoadMore.disabled = false;
+    homeLoadMore.textContent = "Cargar más Pokemon";
   }
 
-  async function loadHomePokemon({ reset = false } = {}) {
+  async function loadHomePokemon(reset = false) {
     if (homeLoading) {
       return;
     }
@@ -49,7 +57,7 @@ function initHomePage() {
       homeStatus.textContent = "Cargando Pokemon iniciales...";
     }
 
-    setHomeLoadButtonState();
+    updateHomeButton();
 
     try {
       const list = await listPokemonBatch(homeOffset, HOME_BATCH_SIZE);
@@ -78,7 +86,7 @@ function initHomePage() {
       homeStatus.textContent = `No se pudieron cargar los Pokemon: ${error.message}`;
     } finally {
       homeLoading = false;
-      setHomeLoadButtonState();
+      updateHomeButton();
     }
   }
 
@@ -99,7 +107,7 @@ function initHomePage() {
       const pokemon = await getPokemon(normalizedQuery);
       searchResult.innerHTML = renderPokemonCard(pokemon);
       searchResult.classList.remove("hidden");
-      searchStatus.textContent = `Hemos encontrado a ${toTitleCase(pokemon.name)} como resultado de tu búsqueda.`;
+      searchStatus.textContent = `Hemos encontrado a ${pokemon.name.toUpperCase()} como resultado de tu búsqueda.`;
     } catch (error) {
       searchStatus.textContent = `No se encontro el Pokemon: ${error.message}`;
       searchResult.classList.add("hidden");
@@ -122,7 +130,7 @@ function initHomePage() {
     loadHomePokemon();
   });
 
-  loadHomePokemon({ reset: true });
+  loadHomePokemon(true);
 }
 
 document.addEventListener("DOMContentLoaded", initHomePage, { once: true });
