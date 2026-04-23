@@ -83,7 +83,7 @@ function initHomePage() {
         homeFinished = true;
       }
     } catch (error) {
-      homeStatus.textContent = `No se pudieron cargar los Pokemon: ${error.message}`;
+      homeStatus.textContent = `No se han podido cargar los Pokemon: ${error.message}`;
     } finally {
       homeLoading = false;
       updateHomeButton();
