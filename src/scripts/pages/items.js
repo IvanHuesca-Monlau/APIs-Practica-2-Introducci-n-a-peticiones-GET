@@ -24,7 +24,7 @@ function initItemsPage() {
       const results = list.results ?? [];
 
       if (!results.length) {
-        itemsStatus.textContent = "No se encontraron objetos en la API.";
+        itemsStatus.textContent = "No se han encontrado objetos en la API.";
         return;
       }
 
